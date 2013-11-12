@@ -44,11 +44,8 @@ class AdiumProperties():
 
     @staticmethod
     def _convert_binary_plist_to_xml_plist(binary_plist):
-        if platform.system() == 'Darwin':
-            os.system("plutil -convert xml1 '" + binary_plist + "'")
-        else:
-            plist_data = biplist.readPlist(binary_plist)
-            biplist.writePlist(plist_data, binary_plist, False) #False => XML, not Binary formatted PList
+        plist_data = biplist.readPlist(binary_plist)
+        biplist.writePlist(plist_data, binary_plist, False) #False => XML, not Binary formatted PList
 
     @staticmethod
     def parse(settingsdir=None):

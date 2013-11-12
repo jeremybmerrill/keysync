@@ -4,7 +4,10 @@
 from __future__ import print_function
 import os
 import platform
-import plistlib
+if platform.system() == 'Darwin':
+    import plistlib
+else:
+    import biplist
 import sys
 
 if __name__ == '__main__':
@@ -38,10 +41,16 @@ class AdiumProperties():
                 print('Adium ERROR: No usable Accounts.plist file found, cannot create Adium files!')
                 return []
         # make sure the plist is in XML format, not binary,
-        # this should be converted to use python-biplist.
+        AdiumProperties._convert_binary_plist_to_xml_plist(accountsfile)
+        return plistlib.readPlist(accountsfile)['Accounts']
+
+    @staticmethod
+    def _convert_binary_plist_to_xml_plist(binary_plist):
         if platform.system() == 'Darwin':
             os.system("plutil -convert xml1 '" + accountsfile + "'")
-        return plistlib.readPlist(accountsfile)['Accounts']
+        else:
+            plist_data = readPlist(binary)
+            writePlist(plist_data, binary_plist)
 
     @staticmethod
     def parse(settingsdir=None):

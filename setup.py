@@ -54,6 +54,7 @@ if sys.platform == 'darwin':
 elif sys.platform == 'win32':
      dependencies.append('pyinstaller')
      dependencies.append('pywin32')
+     dependencies.append('biplist')
      # PIL doesn't build on Windows, so use Pillow instead, pegged at
      # 2.1.0 until pyinstaller supports newer version
      dependencies.append('Pillow==2.1.0')
@@ -61,6 +62,7 @@ elif sys.platform == 'win32':
 else:
      dependencies.append('PIL')
      dependencies.append('pymtp>=0.0.6')
+     dependencies.append('biplist')
      extra_options = dict()
 
 

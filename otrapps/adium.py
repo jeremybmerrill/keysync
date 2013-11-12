@@ -4,10 +4,9 @@
 from __future__ import print_function
 import os
 import platform
-if platform.system() == 'Darwin':
-    import plistlib
-else:
-    import biplist
+import plistlib
+
+import biplist
 import sys
 
 if __name__ == '__main__':
@@ -42,15 +41,15 @@ class AdiumProperties():
                 return []
         # make sure the plist is in XML format, not binary,
         AdiumProperties._convert_binary_plist_to_xml_plist(accountsfile)
-        return plistlib.readPlist(accountsfile)['Accounts']
+        return biplist.readPlist(accountsfile)['Accounts']
 
     @staticmethod
     def _convert_binary_plist_to_xml_plist(binary_plist):
         if platform.system() == 'Darwin':
-            os.system("plutil -convert xml1 '" + accountsfile + "'")
+            os.system("plutil -convert xml1 '" + binary_plist + "'")
         else:
-            plist_data = readPlist(binary)
-            writePlist(plist_data, binary_plist)
+            plist_data = biplist.readPlist(binary_plist)
+            biplist.writePlist(plist_data, binary_plist, False) #False => XML, not Binary formatted PList
 
     @staticmethod
     def parse(settingsdir=None):
